@@ -1,0 +1,25 @@
+[Unit]
+Description=Ubuntu Update Notifier — HTTP Response Handler
+Documentation=https://github.com/your-org/ubuntu-update-notifier
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/update-notifier
+ExecStart=/usr/bin/python3 /opt/update-notifier/update_handler.py
+Restart=on-failure
+RestartSec=10s
+
+# Security hardening
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/update-notifier /var/log
+NoNewPrivileges=no
+
+StandardOutput=append:/var/log/update-notifier.log
+StandardError=append:/var/log/update-notifier.log
+
+[Install]
+WantedBy=multi-user.target
